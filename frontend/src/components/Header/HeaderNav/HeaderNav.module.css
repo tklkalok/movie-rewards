@@ -1,0 +1,41 @@
+.headerNavigator nav{
+    height: 100%;
+    margin: 0;
+}
+
+.headerNavigator nav ul{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    list-style-type: none;
+}
+
+.headerNavigator nav ul li{
+    padding: 0px 25px;
+    align-self: center;
+}
+
+.navItem{
+    position: relative;
+}
+
+.navLinkActive::before{
+    left: 50%;
+    top: -10px;
+    width: 5px;
+    height: 5px;
+    content: '';
+    border-radius: 50%;
+    background-color: var(--highlight-color);
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.signInBtn{
+    background-color: var(--highlight-color)
+}
+
+.signInBtn:hover{
+    filter: brightness(1.1);
+}

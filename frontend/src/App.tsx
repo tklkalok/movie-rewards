@@ -1,7 +1,12 @@
 import { useState, useCallback } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { HeaderBody } from './components/Header/HeaderBody/HeaderBody';
+// import './styles/App.css'
+
+// Define your components
+const Home = () => <h2>All Movies</h2>;
+const Favorite = () => <h2>Favorite</h2>;
+const Users = () => <h2>Users</h2>;
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,7 +36,15 @@ function App() {
 
   return (
     <>
-      <div>
+      <Router>
+        <HeaderBody></HeaderBody>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </Router>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -54,7 +67,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
     </>
   )
 }
