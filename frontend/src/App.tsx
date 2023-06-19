@@ -1,10 +1,33 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const [isSending, setIsSending] = useState(false)
+  const sendRequest = useCallback(async () => {
+    const delay = (ms: any) => new Promise(res => setTimeout(res, ms));
+
+    // don't send again while we are sending
+    if (isSending) return
+    // update state
+    setIsSending(true)
+
+    await delay(3000);
+
+    console.log("DEBUG: setIsSending(true) called");
+
+    // send the actual request
+    const response = await fetch("http://localhost:8000/movies/");
+    const data = await response.json();
+    console.log(JSON.stringify(data));
+    
+    // once the request is sent, update state again
+    setIsSending(false)
+    console.log("DEBUG: setIsSending(false) called");
+  }, [isSending]) // update the callback if the state changes
 
   return (
     <>
@@ -20,6 +43,10 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <p>IsSending: {!!isSending ? 'True' : 'False'}</p>
+        <button onClick={sendRequest}>
+          Send Request
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
