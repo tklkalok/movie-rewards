@@ -1,0 +1,47 @@
+.movieDetail{
+    min-height: 600px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+}
+
+.movieImg {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-size: cover;                      /* <------ */
+    background-repeat: no-repeat;
+    background-position: center center;              /* optional, center the image */
+}
+
+.movieImg::after{
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    content:'';
+    position: absolute;
+    backdrop-filter: blur(6px) brightness(80%);
+    box-shadow: 0 0 100px 100px rgba(0, 0, 0, 0.4) inset;
+}
+
+.movieContent{
+    position: relative;
+    padding: 35px 50px 35px;
+}
+
+.movieContent p{
+    font-size: 14px;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.saveButton{
+    margin-top: 25px;
+    margin-bottom: 15px;
+    background-color: var(--highlight-color);
+}

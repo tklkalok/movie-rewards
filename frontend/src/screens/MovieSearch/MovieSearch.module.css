@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+.movieGallery{
+    padding: 0px 32px;
+}
+
 .movieList{
     gap: 12px;
     flex-wrap: wrap;

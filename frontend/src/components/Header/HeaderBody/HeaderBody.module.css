@@ -2,12 +2,14 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0px 25px;
-    height: 150px;
+    z-index:100;
+    height: 100px;
     display: flex;
     position: fixed;
+    padding: 0px 25px;
     box-sizing: border-box;
     justify-content: space-between;
+    background-color: var(--primary-color);
 }
 
 .logoContainer{
