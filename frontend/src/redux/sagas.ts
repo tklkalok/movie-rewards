@@ -39,10 +39,9 @@ function* saveMovieSaga(action: SaveMovieRequestAction): Generator<any, void, an
         }
         const response = yield call(fetch, `http://127.0.0.1:8000/movies/?imdbID=${imdbID}`, options);
         const data = yield response.json();
-
-        console.log("DEBUG: saveMovieSaga response: ", data);
-
         yield put({type: MovieActionTypes.SAVE_MOVIE_SUCCESS, payload: data})
+        // Dispatch fetchSavedMovies action after movie is saved
+        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST});
     }catch (error){
         yield put({type: MovieActionTypes.SAVE_MOVIE_FAILURE, payload: error})   
     }
@@ -56,9 +55,7 @@ function* fetchSavedMoviesSaga(action: FetchSavedMoviesRequestAction): Generator
     try {
         const response = yield call(fetch, `http://127.0.0.1:8000/movies`);
         const data = yield response.json();
-        console.log("DEBUG: fetchSavedMoviesSaga response: ", data);
-
-        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_SUCCESS, payload: ''})
+        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_SUCCESS, payload: data})
     }catch (error){
         yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_FAILURE, payload: error})   
     }

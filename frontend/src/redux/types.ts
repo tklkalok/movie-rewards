@@ -41,6 +41,7 @@ export interface MovieState {
     movies: Movie[];
     loading: boolean;
     totalPage: number;
+    currentPage: number;
     selectedMovie?: string;
     savedMovies: MovieDetail[];
     savedMoviesImdbID: string[];

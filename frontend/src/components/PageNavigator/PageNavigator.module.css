@@ -1,0 +1,14 @@
+.pageNavigator{
+    padding: 25px 0px 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.pageButton{
+    margin: 0px 3px;
+    background-color: var(--grey-color);
+}
+
+.activePageButton{
+    background-color: var(--highlight-color);
+}

@@ -1,24 +1,28 @@
 import React,  { FC, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MovieState } from '../../redux/types';
+import { Movie, MovieState } from '../../redux/types';
 import { fetchSavedMovies, searchMovies, selectMovie, searchMovieDetail, saveMovie } from '../../redux/actions';
 import styles from './MovieSearch.module.css';
 import { MovieCard } from '../../components/MovieCard/MovieCard';
 import { MovieDetail } from '../../components/MovieDetail/MovieDetail';
+import { PageNavigator } from '../../components/PageNavigator/PageNavigator';
 
 export const MovieSearch:FC = () => {
     const [title, setTitle] = useState('disney');
     const dispatch = useDispatch();
-    const movies = useSelector((state: MovieState) => state.movies);
-    const movieDetail = useSelector((state: MovieState) => state.selectedMovieDetail);
     const movieState = useSelector((state: MovieState) => state);
+    const movies = useSelector((state: MovieState) => state.movies);
+    const totalPage = useSelector((state: MovieState) => state.totalPage);
+    const currentPage = useSelector((state: MovieState) => state.currentPage);
+    const movieDetail = useSelector((state: MovieState) => state.selectedMovieDetail);
+    const savedMoviesImdbID = useSelector((state: MovieState) => state.savedMoviesImdbID);
 
     useEffect(() => {
         dispatch(fetchSavedMovies());
     }, [dispatch]);
 
-    const handleSearch = () => {
-        dispatch(searchMovies({title: title, page: 1}));
+    const handleSearch = (title: string, page: number) => {
+        dispatch(searchMovies({title: title, page: page}));
     };
 
     const handleMovieCardClick = (imdbID: string) => {
@@ -36,15 +40,18 @@ export const MovieSearch:FC = () => {
         <div className={styles.movieGallery}>
             <h3>Movie Search</h3>
             <input type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
-            <button onClick={handleSearch}>Search</button>
+            <button onClick={()=>{handleSearch(title, 1)}}>Search</button>
             <div className={styles.movieList}>
                 {
                     movies.map( movie =>
-                        <MovieCard movie={movie} clickHandler={handleMovieCardClick} saveHandler={handleMovieSave} key={movie.imdbID}/>
+                        <MovieCard movie={movie} savedMoviesImdbID={savedMoviesImdbID} clickHandler={handleMovieCardClick} saveHandler={handleMovieSave} key={movie.imdbID}/>
                     )
                 }
             </div>
-            <pre id="json">{JSON.stringify(movieState, undefined, 2)}</pre>
+            {/* <pre id="json">{JSON.stringify(movieState, undefined, 2)}</pre> */}
+
+            {/* Page navigator */}
+            <PageNavigator totalPage={totalPage} currentPage={currentPage} onChangePage={(page)=>{handleSearch(title, page)}}/>
         </div>
     </div>
 )

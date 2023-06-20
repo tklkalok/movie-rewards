@@ -21,5 +21,12 @@
 }
 
 .saveBtn {
+    font-size: 14px;
     background-color: var(--highlight-color);
+}
+
+.saveBtn:disabled{
+    background-color: var(--grey-color);
+    cursor:not-allowed;
+    color: white;
 }

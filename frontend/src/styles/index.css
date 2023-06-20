@@ -37,10 +37,6 @@ body {
   min-width: 320px;
   position: absolute;
   height: calc(100vh - 100px);
-  /* display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh; */
 }
 
 h1 {
