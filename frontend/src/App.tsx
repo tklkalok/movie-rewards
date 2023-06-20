@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { HeaderBody } from './components/Header/HeaderBody/HeaderBody';
-// import './styles/App.css'
+import { MovieSearch } from './screens/MovieSearch/MovieSearch';
+import './styles/App.css'
 
 // Define your components
-const Home = () => <h2>All Movies</h2>;
 const Favorite = () => <h2>Favorite</h2>;
 const Users = () => <h2>Users</h2>;
 
@@ -39,7 +39,7 @@ function App() {
       <Router>
         <HeaderBody></HeaderBody>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<MovieSearch />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/users" element={<Users />} />
         </Routes>

@@ -19,6 +19,7 @@
   --highlight-color: #f86011;
   --seconary-color: #FFFFFF;
   --primary-color: #242424;
+  --grey-color: #919191;
 }
 
 a {
@@ -31,10 +32,15 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  top: 150px;
+  width: 100%;
+  min-width: 320px;
+  position: absolute;
+  height: calc(100vh - 150px);
+  /* display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100vh; */
 }
 
 h1 {

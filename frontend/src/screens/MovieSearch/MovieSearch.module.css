@@ -1,0 +1,11 @@
+.movieSearchBody{
+    width: 100%;
+}
+
+.movieList{
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 25px 0px;
+    display: inline-flex;
+    justify-content: space-between;
+}

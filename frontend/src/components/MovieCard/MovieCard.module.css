@@ -1,0 +1,21 @@
+.movieCard{
+    width: 170px;
+    cursor: pointer;
+}
+
+.movieTitle{
+    font-size: 12px;
+}
+
+.moviePoster{
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.movieMeta{
+    font-size: 10px;
+    color: var(--grey-color)
+}
