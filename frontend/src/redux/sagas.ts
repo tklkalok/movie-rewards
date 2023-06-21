@@ -69,7 +69,6 @@ export function* watchSaveMovie() {
 
 function* removeMovieSaga(action: RemoveMovieRequestAction): Generator<any, void, any> {
     try {
-        console.log("DEBUG: removeMovieSaga:  called");
         const imdbID = action.payload;
         const options = {
             method: 'DELETE'
@@ -86,9 +85,8 @@ function* removeMovieSaga(action: RemoveMovieRequestAction): Generator<any, void
         yield put({type: MovieActionTypes.REMOVE_MOVIE_SUCCESS, payload: data})
         // Dispatch fetchSavedMovies action after movie is saved
         yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST});
-    }catch (error){
-        yield put({type: MovieActionTypes.REMOVE_MOVIE_FAILURE, payload: error})
-        toast.error('An error occurred!');   
+    }catch (error: any){
+        yield put({type: MovieActionTypes.REMOVE_MOVIE_FAILURE, payload: data})
     }
 }
 

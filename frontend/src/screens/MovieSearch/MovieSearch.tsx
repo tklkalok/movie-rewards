@@ -13,7 +13,6 @@ export const MovieSearch:FC = () => {
     const [title, setTitle] = useState('');
     const [detailOpen, setDetailOpen] = useState(false);
     const dispatch = useDispatch();
-    const states = useSelector((state: MovieState) => state);
     const movies = useSelector((state: MovieState) => state.movies);
     const totalPage = useSelector((state: MovieState) => state.totalPage);
     const currentPage = useSelector((state: MovieState) => state.currentPage);
@@ -77,6 +76,10 @@ export const MovieSearch:FC = () => {
         </div>
         <div className={styles.movieGallery}>
             <h3>Movie Search</h3>
+            {
+                savedMoviesImdbID.length >=5 && 
+                <div className={styles.fiveMovieLimitBanner}>You have saved 5 movie already</div>
+            }
             <div className={styles.searchContainer}>
                 <input className={styles.searchInput} type="text" value={title} onChange={e => setTitle(e.target.value)}></input>
                 <button className={styles.searchButton} onClick={()=>{handleSearch(title, 1)}}>Search</button>
