@@ -1,4 +1,4 @@
-import React,  { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MovieState } from '../../redux/types';

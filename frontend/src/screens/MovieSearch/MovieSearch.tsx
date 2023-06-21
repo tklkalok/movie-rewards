@@ -1,4 +1,4 @@
-import React,  { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MovieState } from '../../redux/types';
 import { fetchSavedMovies, searchMovies, selectMovie, searchMovieDetail, saveMovie, removeMovie } from '../../redux/actions';
@@ -7,7 +7,6 @@ import noItemImage from '../../assets/no_items.svg';
 import { MovieCard } from '../../components/MovieCard/MovieCard';
 import { MovieDetail } from '../../components/MovieDetail/MovieDetail';
 import { PageNavigator } from '../../components/PageNavigator/PageNavigator';
-import { toast } from 'react-toastify';
 
 export const MovieSearch:FC = () => {
     const [title, setTitle] = useState('');
@@ -86,12 +85,12 @@ export const MovieSearch:FC = () => {
             </div>
             <div className={styles.movieList}>
                 {
-                    !!movies.length && movies.map( movie =>
+                    !! movies && !!movies.length && movies.map( movie =>
                         <MovieCard movie={movie} savedMoviesImdbID={savedMoviesImdbID} clickHandler={handleMovieCardClick} saveHandler={handleMovieSave} key={movie.imdbID}/>
                     )
                 }
                 {
-                    !!!movies.length && <div className={styles.noItemImgContainer}>
+                    !! movies && !!!movies.length && <div className={styles.noItemImgContainer}>
                         <img src={noItemImage} className={styles.noItemImg}/>
                     </div>
                 }

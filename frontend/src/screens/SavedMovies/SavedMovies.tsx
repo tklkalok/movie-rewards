@@ -1,4 +1,4 @@
-import React,  { FC, useState, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MovieState,  } from '../../redux/types';
 import { fetchSavedMovies, removeMovie } from '../../redux/actions';

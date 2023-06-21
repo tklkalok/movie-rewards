@@ -1,7 +1,6 @@
-import React,  { FC } from 'react';
+import { FC } from 'react';
 import styles from './HeaderNav.module.css';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const HeaderNav:FC = () => {
 
@@ -15,11 +14,11 @@ export const HeaderNav:FC = () => {
                 <li className={styles.navItem}>
                     <NavLink className={({ isActive }) => isActive ? styles.navLinkActive : ''} to="/savedMovies">Saved Movies</NavLink>
                 </li>
-                <li className={styles.navItem}>
+                {/* <li className={styles.navItem}>
                     <button className={styles.signInBtn}>
                         <NavLink to="/users">Sign In</NavLink>
                     </button>
-                </li>
+                </li> */}
             </ul>
         </nav>
     </div>

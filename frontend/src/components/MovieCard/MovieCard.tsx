@@ -1,4 +1,4 @@
-import React,  { FC, useState } from 'react';
+import React,  { FC } from 'react';
 import styles from './MovieCard.module.css';
 import fallbackImage from '../../assets/fallback_poster.svg';
 

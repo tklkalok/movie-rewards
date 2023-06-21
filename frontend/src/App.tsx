@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { HeaderBody } from './components/Header/HeaderBody/HeaderBody';
 import { MovieSearch } from './screens/MovieSearch/MovieSearch';
 import { SavedMovies } from './screens/SavedMovies/SavedMovies';
 import { MovieState } from './redux/types';
 import { useSelector } from 'react-redux';
 import ClipLoader from "react-spinners/ClipLoader";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles/App.css'
 import styles from './App.module.css';
