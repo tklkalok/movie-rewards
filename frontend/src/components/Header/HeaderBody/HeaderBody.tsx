@@ -1,5 +1,5 @@
 import React,  { FC, useState } from 'react';
-import logo from '../../../assets/logo/gitlab-logo-200.svg';
+import logo from '../../../assets/logo/movie-rewards-logo-white.svg';
 import styles from './HeaderBody.module.css';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { HeaderNav } from '../HeaderNav/HeaderNav';

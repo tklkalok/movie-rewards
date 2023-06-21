@@ -20,6 +20,11 @@ export const saveMovie = (imdbID: string) => ({
     payload: imdbID
 })
 
+export const removeMovie = (imdbID: string) => ({
+    type: MovieActionTypes.REMOVE_MOVIE_REQUEST,
+    payload: imdbID
+})
+
 export const fetchSavedMovies = () => ({
     type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST
 })

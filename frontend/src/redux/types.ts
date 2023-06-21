@@ -37,7 +37,7 @@ export interface SavedMovie extends MovieDetail {
 }
 
 export interface MovieState {
-    error?: string;
+    error: string;
     movies: Movie[];
     loading: boolean;
     totalPage: number;
@@ -49,20 +49,37 @@ export interface MovieState {
 }
 
 export enum MovieActionTypes {
+    SELECT_MOVIE = 'SELECT_MOVIE',
+    RESET_ERROR = 'RESET_ERROR',
     SEARCH_MOVIES_REQUEST = 'SEARCH_MOVIES_REQUEST',
     SEARCH_MOVIES_SUCCESS = 'SEARCH_MOVIES_SUCCESS',
     SEARCH_MOVIES_FAILURE = 'SEARCH_MOVIES_FAILURE',
-    SELECT_MOVIE = 'SELECT_MOVIE',
     SEARCH_MOVIE_DETAIL_REQUEST = 'SEARCH_MOVIE_DETAIL_REQUEST',
     SEARCH_MOVIE_DETAIL_SUCCESS = 'SEARCH_MOVIE_DETAIL_SUCCESS',
     SEARCH_MOVIE_DETAIL_FAILURE = 'SEARCH_MOVIE_DETAIL_FAILURE',
     SAVE_MOVIE_REQUEST = 'SAVE_MOVIE_REQUEST',
     SAVE_MOVIE_SUCCESS = 'SAVE_MOVIE_SUCCESS',
     SAVE_MOVIE_FAILURE = 'SAVE_MOVIE_FAILURE',
+    REMOVE_MOVIE_REQUEST = 'REMOVE_MOVIE_REQUEST',
+    REMOVE_MOVIE_SUCCESS = 'REMOVE_MOVIE_SUCCESS',
+    REMOVE_MOVIE_FAILURE = 'REMOVE_MOVIE_FAILURE',
     FETCH_SAVED_MOVIES_REQUEST = 'FETCH_SAVED_MOVIES_REQUEST',
     FETCH_SAVED_MOVIES_SUCCESS = 'FETCH_SAVED_MOVIES_SUCCESS',
-    FETCH_SAVED_MOVIES_FAILURE = 'FETCH_SAVED_MOVIES_FAILURE',    
+    FETCH_SAVED_MOVIES_FAILURE = 'FETCH_SAVED_MOVIES_FAILURE',        
 }
+
+//------------------ Select Movie ------------------
+export interface SelectMovieAction {
+    type: MovieActionTypes.SELECT_MOVIE;
+    payload: string;
+}
+//------------------ /Search Movie ------------------
+
+//------------------ Reset Error ------------------
+export interface ResetErrorAction {
+    type: MovieActionTypes.RESET_ERROR;
+}
+//------------------ /Reset Error ------------------
 
 //------------------ Search Movies ------------------
 export interface SearchMoviesRequestPayload {
@@ -99,13 +116,6 @@ export interface SearchMoviesFailureAction {
     payload: SearchMoviesFailurePayload;
 }
 //------------------ /Search Movies ------------------
-
-//------------------ Select Movie ------------------
-export interface SelectMovieAction {
-    type: MovieActionTypes.SELECT_MOVIE;
-    payload: string;
-}
-//------------------ /Search Movie ------------------
 
 //------------------ Search Movie Detail ------------------
 export interface SearchMovieDetailRequestPayload {
@@ -173,6 +183,38 @@ export interface SaveMovieFailureAction {
 }
 //------------------ /Save Movie ------------------
 
+//------------------ Remove Movie ------------------
+export interface RemoveMovieRequestPayload {
+    imdbID: string;
+}
+
+export interface RemoveMovieSuccessPayload {
+    success: string;
+    timestamp: string;
+}
+
+export interface RemoveMovieFailurePayload {
+    success: string;
+    code: string;
+    message: string;
+}
+
+export interface RemoveMovieRequestAction {
+    type: MovieActionTypes.REMOVE_MOVIE_REQUEST;
+    payload: RemoveMovieRequestPayload;
+}
+
+export interface RemoveMovieSuccessAction {
+    type: MovieActionTypes.REMOVE_MOVIE_SUCCESS;
+    payload: RemoveMovieSuccessPayload
+}
+
+export interface RemoveMovieFailureAction {
+    type: MovieActionTypes.REMOVE_MOVIE_FAILURE;
+    payload: RemoveMovieFailurePayload
+}
+//------------------ /Remove Movie ------------------
+
 //------------------ Fetch Saved Movie ------------------
 export interface FetchSavedMoviesRequestAction {
     type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST;
@@ -191,16 +233,20 @@ export interface FetchSavedMoviesFailureAction {
 //------------------ /Fetch Saved Movie ------------------
 
 export type MovieAction = 
+    SelectMovieAction |
+    ResetErrorAction | 
     SearchMoviesRequestAction | 
     SearchMoviesSuccessAction | 
     SearchMoviesFailureAction | 
-    SelectMovieAction |
     SearchMovieDetailRequestAction |
     SearchMovieDetailSuccessAction |
     SearchMovieDetailFailureAction |
     SaveMovieRequestAction |
     SaveMovieSuccessAction |
     SaveMovieFailureAction |
+    RemoveMovieRequestAction |
+    RemoveMovieSuccessAction |
+    RemoveMovieFailureAction |
     FetchSavedMoviesRequestAction |
     FetchSavedMoviesSuccessAction |
     FetchSavedMoviesFailureAction

@@ -13,7 +13,7 @@ export const HeaderNav:FC = () => {
                     <NavLink className={({ isActive }) => isActive ? styles.navLinkActive : ''} to="/">All Movies</NavLink>
                 </li>
                 <li className={styles.navItem}>
-                    <NavLink className={({ isActive }) => isActive ? styles.navLinkActive : ''} to="/favorite">Favourite</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? styles.navLinkActive : ''} to="/savedMovies">Saved Movies</NavLink>
                 </li>
                 <li className={styles.navItem}>
                     <button className={styles.signInBtn}>

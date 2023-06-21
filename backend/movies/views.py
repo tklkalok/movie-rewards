@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, APIException
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .models import Movie
 from .serializers import MovieSerializer
 import requests
@@ -27,7 +27,7 @@ class MovieViewSet(viewsets.ModelViewSet):
             raise APIException({"success": False, "code": "FAIL_ON_SEARCH_ERROR", "message": f"Fail to search movie detail"})
         return response_json
 
-    def validate_save_movie_params(self, imdb_id):
+    def validate_save_or_destroy_movie_params(self, imdb_id):
         if not imdb_id:
             raise ValidationError({"success": False, "code": "EMPTY_IMDBID_ERROR", "message": "No imdbID provided."})
 
@@ -46,7 +46,7 @@ class MovieViewSet(viewsets.ModelViewSet):
     # override default create action
     def create(self, request, *args, **kwargs):
         imdb_id = request.query_params.get('imdbID')
-        self.validate_save_movie_params(imdb_id)
+        self.validate_save_or_destroy_movie_params(imdb_id)
         self.check_movie_limit()
         self.check_duplicated_movie(imdb_id)
         movie_detail_json = self.search_movie_detail(imdb_id)
@@ -61,6 +61,28 @@ class MovieViewSet(viewsets.ModelViewSet):
             "movie": serializer.data,
             "timestamp": datetime.now().isoformat()
         })
+    
+    # custom action - delete by imdbID
+    @action(detail=False, methods=['delete'])
+    def deleteByImdbid(self, request, *args, **kwargs):
+        imdb_id = request.query_params.get('imdbID')
+        self.validate_save_or_destroy_movie_params(imdb_id)
+        print('trying to destroy')
+        try:
+            movie = Movie.objects.get(imdbID=imdb_id)
+            movie.delete()
+            return Response({
+                "success": True,
+                "timestamp": datetime.now().isoformat()
+            }, status=status.HTTP_204_NO_CONTENT)
+        except Movie.DoesNotExist:
+            pass
+        return Response({
+            "success": False,
+            "code": "FAIL_TO_REMOVE_MOVIE_ERROR",
+            "message": "Failed to remove movie"
+        },status=status.HTTP_400_BAD_REQUEST)
+
 
     def validate_search_params(self, title, page):
         if not title:
@@ -82,9 +104,21 @@ class MovieViewSet(viewsets.ModelViewSet):
             raise APIException({"success": False, "code": "CONNECT_OMDB_ERROR", "message": "Fail to call omdbapis"})
         response_json = response.json()
         is_search_success = response_json.get('Response') == 'True'
+
+        print(response_json);
         if not is_search_success:
             failed_reason = response_json.get('Error')
-            raise APIException({"success": False, "code": "FAIL_ON_SEARCH_ERROR", "message": f"Fail to search"})
+            # print(failed_reason)
+            if(failed_reason == 'Movie not found!'):
+                return Response({
+                    "success": True,
+                    "movies": [],
+                    "totalPage": 0,
+                    "currentPage": int(page),
+                    "timestamp": datetime.now().isoformat()
+                })
+            else:
+                raise APIException({"success": False, "code": "FAIL_ON_SEARCH_ERROR", "message": f"Fail to search"})
         search_movies = response_json.get('Search')
         num_of_movies = response_json.get('totalResults')
         max_num_per_page = 10

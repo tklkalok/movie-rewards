@@ -50,10 +50,9 @@ export const PageNavigator:FC<PageNavigatorProps> = ({ totalPage, currentPage, o
                 )
             }
             {
-                currentPage !== totalPage && <button
+                totalPage != 0 && currentPage !== totalPage && <button
                     className={styles.pageButton}
                     onClick={()=>{onChangePage(totalPage)}}
-                    disabled={currentPage === totalPage}
                 >{">|"}</button>
             }
         </div>

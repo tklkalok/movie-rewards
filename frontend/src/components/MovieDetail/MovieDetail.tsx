@@ -26,11 +26,14 @@ interface MovieDetailProps {
         DVD: string;
     };
     saveHandler: (imdbID: string)=>void;
+    removeHandler: (imdbID: string)=>void;
+    propClassName?: string;
+    isSaved: boolean
 }
 
-export const MovieDetail:FC<MovieDetailProps> = ({ movie, saveHandler }) => {
+export const MovieDetail:FC<MovieDetailProps> = ({ movie, saveHandler, removeHandler, propClassName, isSaved }) => {
   return (
-    <div className={styles.movieDetail}>
+    <div className={`${styles.movieDetail} ${propClassName}`}>
         <div className={styles.movieImg} style={{backgroundImage: `url(${movie.Poster})`}}></div>
         <div className={styles.movieContent}>
             <h2>{movie.Title}</h2>
@@ -50,7 +53,10 @@ export const MovieDetail:FC<MovieDetailProps> = ({ movie, saveHandler }) => {
             <p>Votes: {movie.imdbVotes}</p>
             <p>DVD: {movie.DVD}</p>
             <p>{movie.Year}</p>
-            <button className={styles.saveButton} onClick={()=>saveHandler(movie.imdbID)}>Save</button>
+            <button 
+                className={styles.saveButton} 
+                onClick={()=>{isSaved ? removeHandler(movie.imdbID): saveHandler(movie.imdbID)}}
+            >{isSaved ? 'Remove' : 'Save'}</button>
         </div>
     </div>
   )

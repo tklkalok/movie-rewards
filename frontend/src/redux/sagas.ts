@@ -1,5 +1,8 @@
-import { takeEvery, put, call, all } from 'redux-saga/effects';
-import { MovieActionTypes, SearchMovieDetailRequestAction, SearchMoviesRequestAction, SaveMovieRequestAction, FetchSavedMoviesRequestAction } from './types';
+import { takeEvery, put, call, all, delay } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+import { MovieActionTypes, SearchMovieDetailRequestAction, SearchMoviesRequestAction, SaveMovieRequestAction, RemoveMovieRequestAction, FetchSavedMoviesRequestAction } from './types';
+
+const resetErrorDelay = 3000;
 
 function* searchMoviesSaga(action: SearchMoviesRequestAction): Generator<any, void, any> {
     try {
@@ -21,9 +24,15 @@ function* searchMovieDetailSaga(action: SearchMovieDetailRequestAction): Generat
         const response = yield call(fetch, `http://127.0.0.1:8000/movies/searchDetail?imdbID=${action.payload}`);
         const data = yield response.json();
 
+        if (!response.ok) {
+            yield put({type: MovieActionTypes.SEARCH_MOVIE_DETAIL_FAILURE, payload: data})
+            yield delay(resetErrorDelay);
+            yield put({type: MovieActionTypes.RESET_ERROR});
+        }
+
         yield put({type: MovieActionTypes.SEARCH_MOVIE_DETAIL_SUCCESS, payload: data})
     }catch (error){
-        yield put({type: MovieActionTypes.SEARCH_MOVIE_DETAIL_FAILURE, payload: error})   
+        yield put({type: MovieActionTypes.SEARCH_MOVIE_DETAIL_FAILURE, payload: error})
     }
 }
 
@@ -39,16 +48,52 @@ function* saveMovieSaga(action: SaveMovieRequestAction): Generator<any, void, an
         }
         const response = yield call(fetch, `http://127.0.0.1:8000/movies/?imdbID=${imdbID}`, options);
         const data = yield response.json();
+
+        if (!response.ok) {
+            yield put({type: MovieActionTypes.SAVE_MOVIE_FAILURE, payload: data}) 
+            yield delay(resetErrorDelay);
+            yield put({type: MovieActionTypes.RESET_ERROR}); 
+        }
+
         yield put({type: MovieActionTypes.SAVE_MOVIE_SUCCESS, payload: data})
         // Dispatch fetchSavedMovies action after movie is saved
         yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST});
     }catch (error){
-        yield put({type: MovieActionTypes.SAVE_MOVIE_FAILURE, payload: error})   
+        yield put({type: MovieActionTypes.SAVE_MOVIE_FAILURE, payload: error})  
     }
 }
 
 export function* watchSaveMovie() {
     yield takeEvery(MovieActionTypes.SAVE_MOVIE_REQUEST, saveMovieSaga);
+}
+
+function* removeMovieSaga(action: RemoveMovieRequestAction): Generator<any, void, any> {
+    try {
+        console.log("DEBUG: removeMovieSaga:  called");
+        const imdbID = action.payload;
+        const options = {
+            method: 'DELETE'
+        }
+        const response = yield call(fetch, `http://127.0.0.1:8000/movies/deleteByImdbid?imdbID=${imdbID}`, options);
+        const data = yield response.json();
+
+        if (!response.ok) {
+            yield put({type: MovieActionTypes.REMOVE_MOVIE_FAILURE, payload: data})
+            yield delay(resetErrorDelay);
+            yield put({type: MovieActionTypes.RESET_ERROR});
+        }
+
+        yield put({type: MovieActionTypes.REMOVE_MOVIE_SUCCESS, payload: data})
+        // Dispatch fetchSavedMovies action after movie is saved
+        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_REQUEST});
+    }catch (error){
+        yield put({type: MovieActionTypes.REMOVE_MOVIE_FAILURE, payload: error})
+        toast.error('An error occurred!');   
+    }
+}
+
+export function* watchRemoveMovie() {
+    yield takeEvery(MovieActionTypes.REMOVE_MOVIE_REQUEST, removeMovieSaga);
 }
 
 function* fetchSavedMoviesSaga(action: FetchSavedMoviesRequestAction): Generator<any, void, any> {
@@ -57,7 +102,7 @@ function* fetchSavedMoviesSaga(action: FetchSavedMoviesRequestAction): Generator
         const data = yield response.json();
         yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_SUCCESS, payload: data})
     }catch (error){
-        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_FAILURE, payload: error})   
+        yield put({type: MovieActionTypes.FETCH_SAVED_MOVIES_FAILURE, payload: error})
     }
 }
 
@@ -71,5 +116,6 @@ export default function* rootSaga() {
         watchFetchMovieDetail(),
         watchSaveMovie(),
         watchFetchSavedMovies(),
+        watchRemoveMovie(),
     ])
 }
