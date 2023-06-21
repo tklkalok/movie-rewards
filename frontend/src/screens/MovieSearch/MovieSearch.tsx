@@ -91,12 +91,12 @@ export const MovieSearch:FC = () => {
                         </div>
                     )
                 }
-                {
-                    !! movies && !!!movies.length && <div className={styles.noItemImgContainer}>
-                        <img src={noItemImage} className={styles.noItemImg}/>
-                    </div>
-                }
             </div>
+            {
+                !! movies && !!!movies.length && <div className={styles.noItemImgContainer}>
+                    <img src={noItemImage} className={styles.noItemImg}/>
+                </div>
+            }
             {/* <pre id="json">{JSON.stringify(movieState, undefined, 2)}</pre> */}
 
             {/* Page navigator */}
