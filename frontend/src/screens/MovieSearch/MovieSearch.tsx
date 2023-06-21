@@ -9,7 +9,7 @@ import { MovieDetail } from '../../components/MovieDetail/MovieDetail';
 import { PageNavigator } from '../../components/PageNavigator/PageNavigator';
 
 export const MovieSearch:FC = () => {
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState('Disney');
     const [detailOpen, setDetailOpen] = useState(false);
     const dispatch = useDispatch();
     const movies = useSelector((state: MovieState) => state.movies);
@@ -86,7 +86,9 @@ export const MovieSearch:FC = () => {
             <div className={styles.movieList}>
                 {
                     !! movies && !!movies.length && movies.map( movie =>
-                        <MovieCard movie={movie} savedMoviesImdbID={savedMoviesImdbID} clickHandler={handleMovieCardClick} saveHandler={handleMovieSave} key={movie.imdbID}/>
+                        <div className={styles.movieCardContainer}>
+                            <MovieCard movie={movie} savedMoviesImdbID={savedMoviesImdbID} clickHandler={handleMovieCardClick} saveHandler={handleMovieSave} key={movie.imdbID}/>
+                        </div>
                     )
                 }
                 {
